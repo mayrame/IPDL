@@ -1,0 +1,10 @@
+<h2>Foire Aux Questions</h2>
+
+<div class="faq-container">
+    <% faqs.forEach((item, index) => { %>
+        <div class="faq-item">
+            <h3 class="question">Q<%= index + 1 %>: <%= item.question %></h3>
+            <p class="answer"><%= item.answer %></p>
+        </div>
+    <% }); %>
+</div>

@@ -1,0 +1,53 @@
+<h2>Liste des abonnés</h2>
+
+
+<!-- Formulaire de recherche -->
+<form action="/subscribers/search" method="GET" class="search-form">
+    <div class="form-group">
+        <input type="text" name="name" placeholder="Rechercher par nom"
+               value="<%= searchQuery.name || '' %>">
+    </div>
+    <div class="form-group">
+        <input type="text" name="zipCode" placeholder="Code postal"
+               value="<%= searchQuery.zipCode || '' %>">
+    </div>
+    <button type="submit" class="btn">Rechercher</button>
+    <% if (searchQuery.name || searchQuery.zipCode) { %>
+        <a href="/subscribers" class="btn">Réinitialiser</a>
+    <% } %>
+</form>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Email</th>
+            <th>Code Postal</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% subscribers.forEach(subscriber => { %>
+        <tr>
+            <td><a href="<%= `/subscribers/${subscriber._id}` %>"><%= subscriber.name %></a></td>
+            <td><%= subscriber.email %></td>
+            <td><%= subscriber.zipCode %></td>
+            <td>
+                <!-- Bouton Modifier -->
+                <a href="/subscribers/<%= subscriber._id %>/edit" class="btn-edit">
+                    <i class="fas fa-edit"></i> Modifier
+                </a>
+
+                <!-- Bouton Supprimer (existant) -->
+                <form action="/subscribers/<%= subscriber._id %>/delete" method="POST" style="display: inline;">
+                    <button type="submit" class="btn-delete">
+                        <i class="fas fa-trash-alt"></i> Supprimer
+                    </button>
+                </form>
+            </td>
+        </tr>
+        <% }); %>
+    </tbody>
+</table>
+<a href="/subscribers/new">Créer un nouvel abonné</a>

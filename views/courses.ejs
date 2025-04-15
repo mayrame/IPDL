@@ -1,0 +1,43 @@
+<h2>Nos Cours</h2>
+<p>Découvrez notre sélection de cours d'intelligence artificielle.</p>
+
+<div class="filters">
+    <form method="GET" action="/courses">
+        <select name="level">
+            <option value="">Tous niveaux</option>
+            <option value="Débutant" <%= filters.level === 'Débutant' ? 'selected' : '' %>>Débutant</option>
+            <option value="Intermédiaire" <%= filters.level === 'Intermédiaire' ? 'selected' : '' %>>Intermédiaire</option>
+            <option value="Avancé" <%= filters.level === 'Avancé' ? 'selected' : '' %>>Avancé</option>
+        </select>
+
+        <select name="price">
+            <option value="">Tous prix</option>
+            <option value="0-200" <%= filters.price === '0-200' ? 'selected' : '' %>>Moins de 200€</option>
+            <option value="200-300" <%= filters.price === '200-300' ? 'selected' : '' %>>200-300€</option>
+            <option value="300+" <%= filters.price === '300+' ? 'selected' : '' %>>Plus de 300€</option>
+        </select>
+
+        <button type="submit" class="btn">Filtrer</button>
+        <% if (filters.level || filters.price) { %>
+            <a href="/courses" class="btn btn-reset">Réinitialiser</a>
+        <% } %>
+    </form>
+</div>
+
+<div class="courses-container">
+    <% if (courses.length > 0) { %>
+        <% courses.forEach(course => { %>
+            <div class="course-card">
+                <h3><%= course.title %></h3>
+                <p><%= course.description %></p>
+                <div class="course-details">
+                    <span class="price"><%= course.price %> €</span>
+                    <span class="level"><%= course.level %></span>
+                </div>
+                <a href="/contact" class="btn">S'inscrire</a>
+            </div>
+        <% }); %>
+    <% } else { %>
+        <p class="no-results">Aucun cours ne correspond à vos critères de filtrage.</p>
+    <% } %>
+</div>
