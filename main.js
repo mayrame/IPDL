@@ -8,8 +8,10 @@ const session = require("express-session");
 const flash = require("connect-flash");
 const passport = require("passport");
 const httpStatus = require("http-status-codes");
-const routes = require("./routes/index");
 
+const routes = require("./routes/index");
+const authRoutes = require("./routes/authRoutes");
+const apiRoutes = require("./routes/apiRoutes"); 
 
 // Configuration de la connexion à MongoDB
 mongoose.connect("mongodb://localhost:27017/ai_academy", {
@@ -29,7 +31,7 @@ app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(layouts);
 app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
+app.use(express.json()); // <== AJOUT important pour API JSON
 app.use(methodOverride("_method", { methods: ["POST", "GET"] }));
 
 // Configuration des cookies et des sessions
@@ -62,10 +64,9 @@ app.use((req, res, next) => {
   next();
 });
 
-
-
 // Utilisation des routes
-
+app.use("/api", apiRoutes); // <== AJOUT ici en premier
+app.use("/", authRoutes);
 app.use("/", routes);
 
 // Démarrage du serveur
